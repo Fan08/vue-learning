@@ -12,7 +12,7 @@ window .onhashchange = function () {
 #### 1.2 Vue Router
 - 支持 H5 历史模式或 hash 模式
 - 支持嵌套路由
-- 支持路由餐宿
+- 支持路由参数
 - 支持编程式路由
 - 支持命名路由
 
@@ -170,3 +170,160 @@ const User = {
 ```
 
 #### 4.2  路由组件传递参数
+$route 与对应路由形成高度耦合，不够灵活，可以使用 props 将组件和路由解耦；
+##### 1 props 的值为布尔类型
+```
+const router = new VueRouter({
+    routes: [
+        // 路由重定向
+        { path: '/', redirect: '/user' },
+        {
+            path: '/user/:id',
+            component: User,
+            props: true,
+        },
+        { path: '/register', component: Register },
+    ]
+})
+
+const User = {
+    props: ['id'],
+    template: '<h1>User 组件 --id：{{id}}</h1>'
+}
+```
+
+##### 2 props 的值为对象类型
+```
+const router = new VueRouter({
+    routes: [
+        // 路由重定向
+        { path: '/', redirect: '/user' },
+        {
+            path: '/user/:id',
+            component: User,
+            // id 不可访问
+            props: {
+                uname: 'lisi',
+                age: 20
+            }
+        },
+        { path: '/register', component: Register },
+    ]
+})
+
+const User = {
+    props: ['uname', 'age'],
+    template: '<h1>User 组件 --uname：{{uname}} --age：{{age}}</h1>'
+}
+```
+
+##### 3 props 的值为函数参数
+```
+const router = new VueRouter({
+    routes: [
+        // 路由重定向
+        { path: '/', redirect: '/user' },
+        {
+            path: '/user/:id',
+            component: User,
+            // props: true,
+            // id 不可访问
+            props: route => ({
+                uname: '25',
+                age: 20,
+                id: route.params.id
+            })
+        },
+        { path: '/register', component: Register },
+    ]
+})
+
+const User = {
+    props: ['id', 'uname', 'age'],
+    template: '<h1>User 组件 --id：{{id}} --uname：{{uname}} --age：{{age}}</h1>'
+}
+```
+
+### 5 vue-router 命名路由
+#### 5.1 命名路由的配置规则
+为了方便地表示路由的路径，可以给路由规则起一个别名，即为“命名路由”；
+```
+<router-link :to="{
+    name: 'user',
+    params: {id: 3}
+}">User3</router-link>
+
+const router = new VueRouter({
+    routes: [
+        { path: '/', redirect: '/user' },
+        {
+            // 命名路由
+            name: 'user',
+            path: '/user/:id',
+            component: User,
+            props: route => ({
+                uname: '25',
+                age: 20,
+                id: route.params.id
+            })
+        },
+        { path: '/register', component: Register },
+    ]
+})
+```
+
+### 6 vue-router 编程式导航
+#### 6.1 页面导航的两种方式
+##### 1 概述
+- <strong><font color=red>声明式导航</font></strong>：通过<strong><font color=red>点击链接</font></strong>实现导航的方式，叫做声明式导航；
+    - 如 a 链接，或 vue 中的 route-link 标签；
+- <strong><font color=red>编程式导航</font></strong>：通过<strong><font color=red>调用 JavaScript</font></strong> 形式的 API 实现导航的方式，叫做编程式导航；
+    - 如普通网页中的 location.href；
+
+###### 2 常用的编程式导航 API
+- this.$router.<strong><font color=red>push</font></strong>('hash地址')
+    ```
+    const User = {
+    props: ['id', 'uname', 'age'],
+    template: `
+            <div>
+                <h1>User 组件 --id：{{id}} --uname：{{uname}} --age：{{age}}</h1>
+                <button @click='goRegister'>跳转到注册页面</button>    
+            </div>
+        `,
+        methods: {
+            goRegister: function () {
+                this.$router.push('/register')
+            }
+        }
+    }
+    ```
+- this.$router.<strong><font color=red>go</font></strong>(n)
+    ```
+    const Register = {
+        template: `
+            <div>
+                <h1>Register 组件</h1>
+                <button @click='goBack'>后退</button>
+            </div>
+        `,
+        methods: {
+            goBack: function () {
+                this.$router.go(-1)
+            }
+        }
+    }
+    ```
+
+#### 5.2 编程式导航参数规则
+router.push() 方法的参数规则
+```
+// 字符串（路径名称）
+router.push('/home')
+// 对象
+router.push({ path: '/home' })
+// 命名路由（传参）
+router.push({ name: '/home', params: { userID: 123 }})
+// 带查询参数，变成 /register?uname=lisi
+router.push({ path: '/register', query: { uname: 'lisi' }})
+```
