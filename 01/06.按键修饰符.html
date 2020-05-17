@@ -1,0 +1,68 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-09 10:54:58
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-09 11:12:07
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <form action="">
+            <div>
+                用户名：
+                <!-- delete 键删除内容 -->
+                <input type="text" v-on:keyup.delete='clearContent' v-model='uname'>
+            </div>
+            <div>
+                密码：
+                <!-- 回车键触发提交 -->
+                <input type="text" v-on:keyup.enter='handleSubmit' v-model='pwd'>
+            </div>
+            <div>
+                <input type="button" v-on:click='handleSubmit' value="提交">
+            </div>
+        </form>
+
+        <!-- 按键为 a 时才触发事件 -->
+        <input type="text" @keyup.aaa='handle' v-model='info'>
+        <input type="text" @keyup.65='handle' v-model='info'>
+    </div>
+    <script src="../vue.js"></script>
+    <script>
+        Vue.config.keyCodes.aaa = 65;
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                uname: '',
+                pwd: '',
+                info: '',
+            },
+            methods: {
+                handleSubmit: function () {
+                    console.log(this.uname, this.pwd);
+                },
+                clearContent: function () {
+                    // 按 delete 键删除内容
+                    this.uname = '';
+                },
+                handle: function (e) {
+                    console.log(e.keyCode);
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

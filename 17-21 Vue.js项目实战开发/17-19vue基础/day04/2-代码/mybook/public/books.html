@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <style type="text/css">
+    .grid {
+      margin: auto;
+      width: 530px;
+      text-align: center;
+    }
+
+    .grid table {
+      border-top: 1px solid #C2D89A;
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .grid th,
+    td {
+      padding: 10;
+      border: 1px dashed #F3DCAB;
+      height: 35px;
+      line-height: 35px;
+    }
+
+    .grid th {
+      background-color: #F3DCAB;
+    }
+
+    .grid .book {
+      padding-bottom: 10px;
+      padding-top: 5px;
+      background-color: #F3DCAB;
+    }
+
+    .grid .total {
+      height: 30px;
+      line-height: 30px;
+      background-color: #F3DCAB;
+      border-top: 1px solid #C2D89A;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <div class="grid">
+
+      <div>
+        <h1>图书管理</h1>
+        <div class="book">
+          <div>
+            <label for="id">
+              编号：
+            </label>
+
+            <!-- 自定义指令 -->
+            <!-- disable 属性绑定 -->
+            <input type="text" id="id" v-model='id' disabled='false' v-focus>
+
+            <label for="name">
+              名称：
+            </label>
+            <input type="text" id="name" v-model='name'>
+            <button @click='handle' :disabled='submitFlag'>提交</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="total">
+        <span>图书总数：</span>
+
+        <!-- 计算属性 -->
+        <span>{{total}}</span>
+
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr :key='item.id' v-for='(item, index) in books'>
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.date}}</td>
+            <td>
+              <a href="" @click.prevent='toEidt(index)'>修改</a>
+              <span></span>
+              <a href="" @click.prevent='toDelete(index, item.id)'>删除</a>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="./js/axios.js"></script>
+  <script type="text/javascript" src="./js/vue.js"></script>
+  <script type="text/javascript">
+    // 配置基础路由
+    axios.defaults.baseURL = 'http://localhost:3000/'
+
+    // 配置响应拦截器
+    axios.interceptors.response.use(function (res) {
+      return res.data;
+    }, function (error) {
+      console.log(error)
+    })
+
+    // 自定义指令
+    Vue.directive('focus', {
+      // 注意是 inserted
+      inserted: function (el) {
+        el.focus();
+      }
+    })
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        id: '',
+        name: '',
+
+        flag: false,
+        submitFlag: false,
+
+        books: []
+      },
+
+      methods: {
+        handle: async function () {
+          if (this.flag === true) {
+            // 编辑操作
+            const ret = await axios.put('books/' + this.id, {
+              name: this.name
+            });
+            if (ret.status === 200) {
+              // 重新加载列表
+              this.queryData();
+            }
+            this.flag = false;
+          } else {
+            // 新增操作
+            const ret = await axios.post('books', {
+              name: this.name,
+            })
+
+            if (ret.status == 200) {
+              // 重新加载列表数据
+              this.queryData();
+            }
+          }
+          this.id = '';
+          this.name = '';
+        },
+
+        toEidt: async function (index) {
+          const aim = this.books[index]
+          // flag 用于区分添加还是编辑操作
+          this.flag = true;
+          const ret = await axios.get('books/' + aim.id);
+          this.id = ret.id;
+          this.name = ret.name;
+        },
+
+        toDelete: async function (index, id) {
+          const ret = await axios.delete('books/' + id);
+          if (ret.status === 200) {
+            // 重新加载
+            this.queryData();
+          }
+        },
+
+
+        queryData: async function () {
+          // 调用后台接口获取图书列表
+          // const ret = await axios.get('books');
+          // this.books = ret.data;
+
+          this.books = await axios.get('books');
+        }
+      },
+
+      // 计算属性
+      computed: {
+        total: function () {
+          // 计算图书总数
+          return this.books.length
+        }
+      },
+
+      // 侦听器侦听数据变化
+      watch: {
+        name: async function (val) {
+          // 验证图书名称是否存在
+          // let flag = this.books.some(function (item) {
+          //   return item.name === val
+          // });
+
+          const ret = await axios.get('/books/book/' + this.name);
+
+          if (ret.status === 1) {
+            this.submitFlag = true;
+          } else {
+            this.submitFlag = false;
+          }
+        }
+      },
+
+      mounted: function () {
+        // 该生命周期被触发时，模板已经加载完成
+        // 在此处可以进行异步请求
+        this.queryData();
+      }
+    });
+  </script>
+</body>
+
+</html>

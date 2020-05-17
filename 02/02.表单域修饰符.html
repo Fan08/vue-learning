@@ -1,0 +1,53 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 09:20:54
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 09:27:48
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+        <input type="text" v-model.number='age'>
+
+        <input type="text" v-model.trim='info'>
+
+        <input type="text" v-model='msg'>
+        <input type="text" v-model.lazy='msg'>
+
+        <div>{{msg}}</div>
+
+        <button v-on:click='handle'>点击</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                age: '',
+                info: '',
+                msg: '',
+            },
+            methods: {
+                handle: function () {
+                    console.log(this.age + 13);
+                    console.log(this.info, this.info.length);
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

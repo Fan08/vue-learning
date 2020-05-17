@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{pmsg}}</div>
+        <!-- 父组件中销毁事件 -->
+        <button @click='handle'>销毁事件</button>
+        <test-tom></test-tom>
+        <test-jerry></test-jerry>
+    </div>
+
+    <script>
+
+        // 提供事件中心
+        const hub = new Vue();
+        Vue.component('test-tom', {
+            data: function () {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+                <div>
+                    <div>Tom:{{num}}</div>
+                    <button @click='handle'>点击</button>
+                </div>
+            `,
+            methods: {
+                handle: function () {
+                    // 触发 tom-event，2 为传值
+                    // 将 2 传给 test-jerry 的 mounted 的匿名函数
+                    hub.$emit('tom-event', 2)
+                }
+            },
+
+            mounted: function () {
+                // 监听 jerry-event 事件
+                hub.$on('jerry-event', (val) => {
+                    // val 是 tom-event 传来的数据
+                    this.num += val;
+                })
+            }
+        })
+
+        Vue.component('test-jerry', {
+            data: function () {
+                return {
+                    num: 0
+                }
+            },
+            template: `
+                <div>
+                    <div>Jerry:{{num}}</div>
+                    <button @click='handle'>点击</button>
+                </div>
+            `,
+            methods: {
+                handle: function () {
+                    hub.$emit('jerry-event', 1)
+                }
+            },
+
+            mounted: function () {
+                // 监听 tom-event 事件
+                hub.$on('tom-event', (val) => {
+                    // val 是 tom-event 传来的数据
+                    this.num += val;
+                })
+            }
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                pmsg: '父组件内容'
+            },
+            methods: {
+                handle: function () {
+                    hub.$off('tom-event')
+                    hub.$off('jerry-event')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

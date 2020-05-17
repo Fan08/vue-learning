@@ -1,0 +1,50 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 11:33:41
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 11:41:12
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <input type="text" v-model='msg'>
+        <div>{{msg | upper}}</div>
+        <div>{{msg | upper | lower}}</div>
+
+        <div v-bind:msg='msg | upper'>测试属性绑定</div>
+    </div>
+
+    <script>
+        // 全局注册
+        Vue.filter('lower', function (val) {
+            return val.charAt(0).toLowerCase() + val.slice(1);
+        })
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                msg: '',
+            },
+
+            // 局部注册
+            filters: {
+                upper: function (val) {
+                    return val.charAt(0).toUpperCase() + val.slice(1);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

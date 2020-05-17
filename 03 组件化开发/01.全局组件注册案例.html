@@ -1,0 +1,52 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-11 17:35:05
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-11 17:42:02
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 组件重用 -->
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+        <button-counter></button-counter>
+    </div>
+
+    <script>
+        Vue.component('button-counter', {
+            data: function () {
+                return {
+                    count: 0
+                }
+            },
+
+            template: '<button v-on:click="handle">点击了{{count}}次</button>',
+            methods: {
+                handle: function () {
+                    this.count++;
+                }
+            }
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+
+            },
+        })
+    </script>
+</body>
+
+</html>

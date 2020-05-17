@@ -1,0 +1,62 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 11:20:18
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 11:28:35
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <span>用户名：</span>
+            <span>
+                <input type="text" v-model.lazy='uname'>
+            </span>
+            <span v-text='tip'></span>
+        </div>
+    </div>
+
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                uname: '',
+                tip: '',
+            },
+            methods: {
+                checkName: function (uname) {
+                    // 使用定时任务模拟
+                    setTimeout(function () {
+                        if (uname === 'admin') {
+                            this.tip = '用户名存在！'
+                        } else {
+                            this.tip = '用户名可以使用！'
+                        }
+                    }.bind(this), 2000)
+                },
+            },
+            watch: {
+                uname: function (val) {
+                    // 调用后台接口进行验证
+                    this.checkName(val);
+                    // 修改提示信息
+                    this.tip = '正在验证';
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

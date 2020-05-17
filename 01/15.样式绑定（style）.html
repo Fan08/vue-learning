@@ -1,0 +1,59 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-09 23:15:00
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-09 23:24:42
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 对象形式 -->
+        <div v-bind:style='{border:borderStyle, width:widthStyle, height:heightStyle}'></div>
+        <button v-on:click='handle'>切换</button>
+        <div v-bind:style='objStyle'></div>
+
+        <!-- 数组形式 -->
+        <div v-bind:style='[objStyle, overrideStyles]'></div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                borderStyle: '1px solid blue',
+                widthStyle: '100px',
+                heightStyle: '200px',
+
+                objStyle: {
+                    border: '1px solid green',
+                    width: '200px',
+                    height: '100px'
+                },
+
+                overrideStyles: {
+                    border: '5px solid orange',
+                    backgroundColor: 'blue'
+                }
+            },
+            methods: {
+                handle: function () {
+                    this.heightStyle = '100px';
+                    this.objStyle.width = '100px';
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

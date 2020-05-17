@@ -1,0 +1,100 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-09 21:58:05
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-09 22:19:36
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script type="text/javascript" src="../vue.js"></script>
+  <style type="text/css">
+    .active {
+      border: 1px solid red;
+      width: 100px;
+      height: 100px;
+    }
+
+    .error {
+      background-color: orange;
+    }
+
+    .test {
+      color: blue;
+    }
+
+
+    .base {
+      font-size: 28px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app1">
+    <!-- 对象形式 -->
+    <div v-bind:class="{active:isActive, error: isError}">
+      测试样式
+    </div>
+    <button v-on:click='handle'>切换</button>
+  </div>
+
+  <div id="app">
+    <!-- 数组形式 -->
+    <div v-bind:class="[activeClass, errorClass, {test: isTest}]">
+      测试样式
+    </div>
+
+    <!-- 简化操作 -->
+    <div v-bind:class='arrClasses'></div>
+    <div v-bind:class='objClasses'></div>
+
+    <!-- 添加基础样式 -->
+    <div class="base" v-bind:class='objClasses'>测试样式</div>
+
+    <button v-on:click='handle'>切换</button>
+  </div>
+  <script type="text/javascript">
+    var vm1 = new Vue({
+      el: '#app1',
+      data: {
+        isActive: true,
+        isError: false,
+      },
+      methods: {
+        handle: function () {
+          // 控制 isActive 的切换
+          this.isActive = !this.isActive;
+          this.isError = !this.isError;
+        }
+      }
+    });
+
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        activeClass: 'active',
+        errorClass: 'error',
+        isTest: true,
+
+        arrClasses: ['active', 'error'],
+        objClasses: {
+          active: true,
+          error: true,
+        }
+      },
+      methods: {
+        handle: function () {
+          this.activeClass = '';
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-09 10:45:07
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-09 10:50:06
+ -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <div>{{num}}</div>
+        <div @click='handle'>
+            <button v-on:click='handle1'>num++(handle)</button>
+        </div>
+        <div @click='handle'>
+            <button v-on:click.stop='handle2'>num++(handle)</button>
+        </div>
+        <div>
+            <a href="http://www.baidu.com" v-on:click.prevent='handle2'>百度</a>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                num: 0
+            },
+            methods: {
+                handle: function (e) {
+                    this.num++;
+                },
+                handle1: function (e) {
+                    // 传统阻止冒泡
+                    e.stopPropagation();
+                    console.log(e);
+                },
+                handle2: function (e) {
+                    console.log(e);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

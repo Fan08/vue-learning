@@ -1,0 +1,80 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 21:42:54
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 22:56:01
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+
+    <div>
+      <span>
+        <input type="text" v-model='fname'>
+        <button v-on:click='add'>添加</button>
+        <button v-on:click='del'>删除</button>
+        <button v-on:click='change'>替换</button>
+      </span>
+    </div>
+
+    <ul>
+      <li v-for='item in list'>{{item}}</li>
+    </ul>
+
+    <div>
+      <div>{{info.name}}</div>
+      <div>{{info.age}}</div>
+      <div>{{info.gender}}</div>
+    </div>
+  </div>
+  <script type="text/javascript" src="../vue.js"></script>
+  <script type="text/javascript">
+    /*
+      动态处理响应式数据
+      
+    */
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        fname: '',
+        list: ['apple', 'orange', 'banana'],
+
+        info: {
+          name: '李四',
+          age: 12
+        }
+      },
+
+      methods: {
+        add: function () {
+          this.list.push(this.fname);
+          this.fname = '';
+        },
+        del: function () {
+          this.list.pop();
+        },
+        change: function () {
+          this.list = this.list.slice(0, 2);
+        }
+      }
+    });
+
+    Vue.set(vm.list, 2, 'lemon');
+    vm.$set(vm.list, 1, 'lemon');
+
+    vm.info.gender = 'male';
+    vm.$set(vm.info, 'gender', 'female')
+
+  </script>
+</body>
+
+</html>

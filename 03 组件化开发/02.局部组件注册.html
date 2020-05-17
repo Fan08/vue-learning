@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id='app'>
+        <hello-world></hello-world>
+        <hello-tom></hello-tom>
+        <test-com></test-com>
+    </div>
+
+    <script>
+        Vue.component('test-com', {
+            template: '<div>Test</div>',
+            // 无法使用局部注册的组件
+            // template: '<div>Test<hello-world></hello-world></div>',
+        })
+
+        const HelloWorld = {
+            data: function () {
+                return {
+                    msg: 'hello world'
+                }
+            },
+
+            template: '<div>{{msg}}</div>'
+        }
+
+        const HelloTom = {
+            data: function () {
+                return {
+                    msg: 'hello tom'
+                }
+            },
+
+            template: '<div>{{msg}}</div>'
+        }
+
+        const vm = new Vue({
+            el: '#app',
+
+            data: {
+
+            },
+
+            components: {
+                'hello-world': HelloWorld,
+                'hello-tom': HelloTom,
+            }
+        })
+    </script>
+</body>
+
+</html>

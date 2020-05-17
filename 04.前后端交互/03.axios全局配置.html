@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./axios.js"></script>
+</head>
+
+<body>
+    <script>
+        // 配置请求头信息
+        axios.defaults.headers['mytoken'] = 'hello';
+
+        // 配置请求的基准 URL
+        axios.defaults.baseURL = 'http://localhost:3000/'
+        // 发起请求自动与 baseURL 进行拼接
+        axios.get('axios-json').then(function (ret) {
+            console.log(ret.data.uname);
+        })
+    </script>
+</body>
+
+</html>

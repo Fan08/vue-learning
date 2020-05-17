@@ -1,0 +1,68 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 11:07:24
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 11:15:31
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="app">
+    <div>
+      <span>名：</span>
+      <span>
+        <input type="text" v-model='firstName'>
+      </span>
+    </div>
+    <div>
+      <span>姓：</span>
+      <span>
+        <input type="text" v-model='lastName'>
+      </span>
+    </div>
+    <div>侦听器实现：{{fullName}}</div>
+    <div>计算属性实现：{{fullName2}}</div>
+  </div>
+  <script type="text/javascript" src="../vue.js"></script>
+  <script type="text/javascript">
+    /*
+      侦听器
+    */
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        firstName: 'Jim',
+        lastName: 'Green',
+        fullName: 'Jim Green'
+      },
+
+      // 使用计算属性实现
+      computed: {
+        fullName2: function () {
+          return this.firstName + ' ' + this.lastName;
+        }
+      },
+
+      // 通过 watch 属性来监听数据的变化
+      watch: {
+        // val 实际上直接获取了 firstName 的最新值
+        firstName: function (val) {
+          this.fullName = val + ' ' + this.lastName;
+        },
+        lastName: function (val) {
+          this.fullName = this.firstName + ' ' + val;
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,55 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 10:41:47
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 10:54:11
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-text='msg'></div>
+
+        <!-- 字符串翻转 -->
+        <div>{{msg.split('').reverse().join('')}}</div>
+        <div>{{reverseString}}</div>
+        <div>{{reverseString}}</div>
+
+
+        <div>{{reverseMessage()}}</div>
+        <div>{{reverseMessage()}}</div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: 'Hello'
+            },
+            methods: {
+                reverseMessage: function () {
+                    console.log('methods');
+                    return this.msg.split('').reverse().join('')
+                }
+            },
+            computed: {
+                reverseString: function () {
+                    console.log('computed');
+                    return this.msg.split('').reverse().join('')
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

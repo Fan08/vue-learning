@@ -1,0 +1,43 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-09 21:41:29
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-09 21:47:21
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <a v-bind:href="url" v-text='value'></a>
+        <button v-on:click='handle'>切换</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                url: 'http://www.baidu.com',
+                value: '百度',
+            },
+            methods: {
+                handle: function () {
+                    // 修改 url
+                    this.url = 'http://itcast.cn';
+                    this.value = '传播智客';
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

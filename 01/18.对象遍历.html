@@ -1,0 +1,52 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-09 23:49:44
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-09 23:56:28
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for='(value, key, index) in obj'>{{key}}:{{value}}</div>
+        <div v-if='value===12' v-for='(value, key, index) in obj'>{{key}}:{{value}}</div>
+    </div>
+
+    <script>
+        var obj = {
+            uname: '里斯',
+            age: 12,
+            gender: 'male',
+        };
+
+        for (let key in obj) {
+            console.log(key, obj[key]);
+        }
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                obj: {
+                    uname: '里斯',
+                    age: 12,
+                    gender: 'male',
+                },
+            },
+            methods: {
+
+            }
+        })
+    </script>
+</body>
+
+</html>

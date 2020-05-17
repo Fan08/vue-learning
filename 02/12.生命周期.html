@@ -1,0 +1,75 @@
+<!--
+ * @Descripttion: 
+ * @version: 
+ * @Author: 唐帆
+ * @Date: 2020-05-10 19:55:08
+ * @LastEditors: 唐帆
+ * @LastEditTime: 2020-05-10 21:43:03
+ -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{msg}}</div>
+        <button v-on:click="update">更新</button>
+        <button v-on:click="destroy">销毁</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: '生命周期',
+            },
+
+            methods: {
+                update: function () {
+                    this.msg = '更新阶段';
+                },
+                destroy: function () {
+                    this.$destroy();
+                }
+            },
+
+            // 组件挂载阶段
+            beforeCreate: function () {
+                console.log('beforeCreate');
+            },
+            created: function () {
+                console.log('created');
+            },
+            beforeMount: function () {
+                console.log('beforeMount')
+            },
+            mounted: function () {
+                console.log('mounted')
+            },
+
+            // 组件更新阶段
+            beforeUpdate: function () {
+                console.log('beforeUpdate')
+            },
+            updated: function () {
+                console.log('updated')
+            },
+
+            // 销毁阶段
+            beforeDestroy: function () {
+                console.log('beforeDestroy')
+            },
+            destroyed: function () {
+                console.log('destroyed')
+            }
+        })
+    </script>
+</body>
+
+</html>

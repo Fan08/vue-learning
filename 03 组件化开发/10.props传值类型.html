@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{pmsg}}</div>
+        <!-- 此处的 12 是 num，而不是字符串，去掉冒号就是字符串 -->
+        <menu-item :string="pmsg" :pnum='12' :bool='true' :parr='parr' :pobj='pobj'></menu-item>
+    </div>
+
+    <script>
+        Vue.component('menu-item', {
+            props: ['string', 'pnum', 'bool', 'parr', 'pobj'],
+            data: function () {
+                return {
+                    msg: '子组件数据'
+                }
+            },
+
+            template: `
+            <div>
+                <div>{{"str-" + string}}</div>
+                <div>num-{{pnum + pnum}}</div>
+                <div>{{"bool-" + typeof bool + '-' + bool}}</div>
+                <div>{{"parr-" + parr}}</div>
+                <ul>
+                    <li v-for='(item, index) in parr'>
+                        {{item}}
+                    </li>
+                </ul>
+                <div>
+                    对象传值
+                    <span>{{pobj.a}}</span>
+                    <span>{{pobj.b}}</span>
+                </div>
+            </div>
+            `
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                pmsg: '父组件内容',
+                ptitle: '动态绑定属性值',
+                parr: [1, 2, 3],
+                pobj: {
+                    'a': 1,
+                    'b': 2
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>{{pmsg}}</div>
+        <menu-item title="来自父组件的值"></menu-item>
+        <menu-item :title="ptitle"></menu-item>
+    </div>
+
+    <script>
+        Vue.component('menu-item', {
+            props: ['title'],
+            data: function () {
+                return {
+                    msg: '子组件数据'
+                }
+            },
+
+            template: '<div>{{msg + "-" + title}}</div>'
+        })
+
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                pmsg: '父组件内容',
+                ptitle: '动态绑定属性值'
+            }
+        })
+    </script>
+</body>
+
+</html>
